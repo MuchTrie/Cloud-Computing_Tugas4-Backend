@@ -141,23 +141,24 @@ async function startServer() {
         }
 
         // Start the server
-        app.listen(PORT, () => {
-            console.log(`
+        app.listen(PORT, '0.0.0.0', () => {  // ← Tambahkan '0.0.0.0'
+    console.log(`
 🚀 T4-Backend API Server Started Successfully!
             
 📊 Server Info:
    • Port: ${PORT}
    • Environment: ${process.env.NODE_ENV || 'development'}
    • Database: ${process.env.DB_NAME || 't4_health_db'}
+   • Host: 0.0.0.0 (accessible from external)
    
 🌐 API Endpoints:
-   • Health Check: http://localhost:${PORT}/health
-   • Analyze Health: POST http://localhost:${PORT}/api/v1/health/analyze
+   • Health Check: http://YOUR_EC2_IP:${PORT}/health
+   • Analyze Health: POST http://YOUR_EC2_IP:${PORT}/api/v1/health/analyze
    
    
 ✅ Ready to receive requests from T4-Frontend!
             `);
-        });
+});
 
     } catch (error) {
         console.error('❌ Failed to start server:', error.message);
