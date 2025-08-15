@@ -20,28 +20,11 @@ app.use(helmet({
 
 // CORS configuration
 const corsOptions = {
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        
-        const allowedOrigins = process.env.CORS_ORIGIN ? 
-            process.env.CORS_ORIGIN.split(',') : 
-            ['http://localhost:3001', 'http://127.0.0.1:5500', 'http://localhost:5500'];
-        
-        // Add file:// protocol for local file access
-        allowedOrigins.push('null'); // for file:// protocol
-        
-        if (allowedOrigins.indexOf(origin) !== -1 || origin === 'null') {
-            callback(null, true);
-        } else {
-            console.log('CORS blocked origin:', origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: '*',  // Allow all origins untuk testing
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    credentials: true,
-    optionsSuccessStatus: 200 // For legacy browser support
+    credentials: false,  // Set false untuk wildcard origin
+    optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
