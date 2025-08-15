@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  t4-backend:
+    build: .
+    container_name: t4-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=db-much.cfo8uqy0i602.ap-southeast-2.rds.amazonaws.com
+      - DB_PORT=3306
+      - DB_USER=muchtrie
+      - DB_PASSWORD=Bravo932q
+      - DB_NAME=much_t4
+      - CORS_ORIGIN=http://localhost:3001,http://127.0.0.1:5500,http://YOUR_FRONTEND_EC2_IP
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - t4-network
+
+networks:
+  t4-network:
+    driver: bridge
